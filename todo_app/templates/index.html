@@ -18,9 +18,13 @@
   <div class="row">
     <div class="col-md-12">
       <h2>Items</h2>
-      <ul class="list-group mb-4">
+      <ul class="list-group mb-4" style="list-style-type: none;">
         {% for item in items %}
-        <li name="{{ item.id}}">{{ item.title }} - {{ item.status }}</li>
+        <li name="" style="width: 400px;margin-bottom: 10px;border: 1px solid #ccc;border-radius: 5px;padding:5px; ">
+          {{ item.title }} 
+          <form style="float:right;" action="" method="post">
+            <button type="submit" value="{{ item.id}}">Mark Complete</button>
+          </form></li>
         {% endfor %}
       </ul>
     </div>

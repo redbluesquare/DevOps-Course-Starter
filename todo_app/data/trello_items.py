@@ -20,37 +20,23 @@ def get_items():
     api_key = os.getenv("TRELLO_API_KEY")
     api_token = os.getenv("TRELLO_API_TOKEN")
     api_list = os.getenv("TRELLO_API_LIST")
-    proxies = {'http':'http://rb-proxy-de.bosch.com:8080','https':'http://rb-proxy-de.bosch.com:8080'}
+    proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
     api_url = "https://api.trello.com/1/lists/"+api_list+"/cards"
     query_params = {
         "key":api_key,
         "token":api_token
     }
     response = requests.get(api_url, params=query_params, proxies=proxies, verify='wincacerts.pem')
-    response_list = response.json()
+    cards = response.json()
 
-    for item in response_list:
-        if item["closed"] == False:
+    for card in cards:
+        if card["closed"] == False:
             item_status = 'Open'
         else:
             item_status = 'Closed'
-        list_items.append({"id":item["id"],"title":item["name"],"status":item_status})
+        list_items.append({"id":card["id"],"title":card["name"],"status":item_status})
 
     return list_items
-
-
-def get_item(id):
-    """
-    Fetches the saved item with the specified ID.
-
-    Args:
-        id: The ID of the item.
-
-    Returns:
-        item: The saved item, or None if no items match the specified ID.
-    """
-    items = get_items()
-    return next((item for item in items if item['id'] == int(id)), None)
 
 
 def add_item(title):
@@ -63,28 +49,20 @@ def add_item(title):
     Returns:
         item: The saved item.
     """
-    items = get_items()
+    api_key = os.getenv("TRELLO_API_KEY")
+    api_token = os.getenv("TRELLO_API_TOKEN")
+    api_list = os.getenv("TRELLO_API_LIST")
+    proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
+    api_url = "https://api.trello.com/1/cards"
+    query_params = {
+        "key":api_key,
+        "token":api_token,
+        "idList":api_list,
+        "name":title
+        }
+    response = requests.post(api_url,params=query_params, proxies=proxies, verify='wincacerts.pem')
 
-    # Determine the ID for the item based on that of the previously added item
-    id = items[-1]['id'] + 1 if items else 0
-
-    item = { 'id': id, 'title': title, 'status': 'Not Started' }
-
-    # Add the item to the list
-    items.append(item)
-
-    return item
-
-
-def save_item(item):
-    """
-    Updates an existing item in the session. If no existing item matches the ID of the specified item, nothing is saved.
-
-    Args:
-        item: The item to save.
-    """
-    existing_items = get_items()
-    updated_items = [item if item['id'] == existing_item['id'] else existing_item for existing_item in existing_items]
-
-
-    return item
+    if response.status_code == '200':
+        return True
+    else:
+        return False
