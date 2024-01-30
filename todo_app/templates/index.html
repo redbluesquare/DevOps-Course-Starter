@@ -20,7 +20,7 @@
       <h2>Items</h2>
       <ul class="list-group mb-4">
         {% for item in items %}
-        <li> {{ item.id}} - {{ item.title }} - {{ item.status }}</li>
+        <li name="{{ item.id}}">{{ item.title }} - {{ item.status }}</li>
         {% endfor %}
       </ul>
     </div>
