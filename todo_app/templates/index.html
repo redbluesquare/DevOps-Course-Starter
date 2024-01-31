@@ -8,7 +8,7 @@
   </div>
 
   <div>
-    <form action="" method="post">
+    <form action="add-todo" method="post">
       <label for="title"> Enter new task</label>
       <input type="text" name="title" required>
       <button type="submit" value="Add">Add</button>
@@ -22,9 +22,13 @@
         {% for item in items %}
         <li name="" style="width: 400px;margin-bottom: 10px;border: 1px solid #ccc;border-radius: 5px;padding:5px; ">
           {{ item.title }} 
-          <form style="float:right;" action="" method="post">
-            <button type="submit" value="{{ item.id}}">Mark Complete</button>
-          </form></li>
+          {% if item.status == 'Open' %}
+          <form style="float:right;" action="close-todo" method="post">
+            <button type="submit" value="submit">Mark Complete</button>
+            <input type="hidden" name="id" value="{{item.id}}" required>
+          </form>
+          {% endif %}
+        </li>
         {% endfor %}
       </ul>
     </div>

@@ -1,6 +1,7 @@
 import os
 import requests
 import ssl
+from todo_app.data.item import Item
 from requests_kerberos import HTTPKerberosAuth, OPTIONAL
 context = ssl.create_default_context()
 der_certs = context.get_ca_certs(binary_form=True)
@@ -20,22 +21,21 @@ def get_items():
     api_key = os.getenv("TRELLO_API_KEY")
     api_token = os.getenv("TRELLO_API_TOKEN")
     api_list = os.getenv("TRELLO_API_LIST")
+    idBoards = os.getenv("TRELLO_API_BOARD")
     proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
-    api_url = "https://api.trello.com/1/lists/"+api_list+"/cards"
+    api_url = f'https://api.trello.com/1/boards/{idBoards}/lists'
     query_params = {
         "key":api_key,
-        "token":api_token
+        "token":api_token,
+        "cards":"open"
     }
     response = requests.get(api_url, params=query_params, proxies=proxies, verify='wincacerts.pem')
-    cards = response.json()
+    response_list = response.json()
 
-    for card in cards:
-        if card["closed"] == False:
-            item_status = 'Open'
-        else:
-            item_status = 'Closed'
-        list_items.append({"id":card["id"],"title":card["name"],"status":item_status})
-
+    for trello_list in response_list:
+        for card in trello_list['cards']:
+            item = Item.from_trello_card(card, trello_list)
+            list_items.append(item)
     return list_items
 
 
@@ -47,11 +47,11 @@ def add_item(title):
         title: The title of the item.
 
     Returns:
-        item: The saved item.
+        True if the the item saves.
     """
     api_key = os.getenv("TRELLO_API_KEY")
     api_token = os.getenv("TRELLO_API_TOKEN")
-    api_list = os.getenv("TRELLO_API_LIST")
+    api_list = os.getenv("TRELLO_API_OPEN_LIST")
     proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
     api_url = "https://api.trello.com/1/cards"
     query_params = {
@@ -62,6 +62,35 @@ def add_item(title):
         }
     response = requests.post(api_url,params=query_params, proxies=proxies, verify='wincacerts.pem')
 
+    if response.status_code == '200':
+        return True
+    else:
+        return False
+    
+def update_item(id, status = False):
+    """
+    Adds a new item with the specified title to the session.
+
+    Args:
+        title: The title of the item.
+
+    Returns:
+        True if the the item saves.
+    """
+    api_key = os.getenv("TRELLO_API_KEY")
+    api_token = os.getenv("TRELLO_API_TOKEN")
+    if status == True:
+        api_list = os.getenv("TRELLO_API_CLOSED_LIST")
+    else:
+        api_list = os.getenv("TRELLO_API_OPEN_LIST")
+    proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
+    api_url = f"https://api.trello.com/1/cards/{id}"
+    query_params = {
+        "key":api_key,
+        "token":api_token,
+        "idList":api_list
+        }
+    response = requests.put(api_url,params=query_params, proxies=proxies, verify='wincacerts.pem')
     if response.status_code == '200':
         return True
     else:
