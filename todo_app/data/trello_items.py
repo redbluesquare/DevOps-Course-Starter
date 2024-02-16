@@ -62,10 +62,7 @@ def add_item(title):
         }
     response = requests.post(api_url,params=query_params, proxies=proxies, verify='wincacerts.pem')
 
-    if response.status_code == '200':
-        return True
-    else:
-        return False
+    return response.ok
     
 def update_item(id, status = False):
     """
