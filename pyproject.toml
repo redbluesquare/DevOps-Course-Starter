@@ -8,6 +8,7 @@ authors = []
 python = "^3.8"
 Flask = "^2.2.5"
 python-dotenv = "^0.14.0"
+requests = "^2.31.0"
 
 [tool.poetry.dev-dependencies]
 
