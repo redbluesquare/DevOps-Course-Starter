@@ -118,3 +118,7 @@ env/
 
 ### Configuration files ###
 .env
+
+### certificates ###
+*.pem
+DevOps-Course-Starter.code-workspace
