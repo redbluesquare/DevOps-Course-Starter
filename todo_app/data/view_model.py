@@ -4,7 +4,11 @@ class ViewModel:
  
     @property
     def open_items(self):
-        return []
+        output = []
+        for item in self._items:
+            if item.status == 'Open':
+                output.append(item)
+        return output
     
     @property
     def done_items(self):
