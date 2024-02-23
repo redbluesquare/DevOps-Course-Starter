@@ -30,6 +30,7 @@ You'll also need to clone a new `.env` file from the `.env.template` to store lo
 
 ```bash
 $ cp .env.template .env  # (first time only)
+$ cp .env.template .env.test  # (first time only)
 ```
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
@@ -64,3 +65,10 @@ You should see output similar to the following:
  * Debugger PIN: 226-556-590
 ```
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
+
+
+## Running the Test Suite
+To execute the tests, please run the following command:
+```bash
+$ poetry run pytest
+```
