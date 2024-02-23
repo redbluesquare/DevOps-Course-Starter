@@ -1,7 +1,7 @@
 import os
 import requests
-import ssl
 from todo_app.data.item import Item
+import ssl
 context = ssl.create_default_context()
 der_certs = context.get_ca_certs(binary_form=True)
 pem_certs = [ssl.DER_cert_to_PEM_cert(der) for der in der_certs]
