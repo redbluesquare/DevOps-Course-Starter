@@ -7,7 +7,8 @@ def test_view_model_done_property():
     # Arrange
     items = [
         Item('1','My card','Open'),
-        Item('2','My 2nd card','Closed')]
+        Item('2','My 2nd card','Closed')
+    ]
     item_view_model = ViewModel(items)
     # Act
     returned_items = item_view_model.done_items
