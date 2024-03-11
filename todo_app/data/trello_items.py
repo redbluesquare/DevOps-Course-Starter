@@ -1,8 +1,7 @@
 import os
 import requests
-import ssl
 from todo_app.data.item import Item
-from requests_kerberos import HTTPKerberosAuth, OPTIONAL
+import ssl
 context = ssl.create_default_context()
 der_certs = context.get_ca_certs(binary_form=True)
 pem_certs = [ssl.DER_cert_to_PEM_cert(der) for der in der_certs]
@@ -20,7 +19,6 @@ def get_items():
     list_items = []
     api_key = os.getenv("TRELLO_API_KEY")
     api_token = os.getenv("TRELLO_API_TOKEN")
-    api_list = os.getenv("TRELLO_API_LIST")
     idBoards = os.getenv("TRELLO_API_BOARD")
     proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
     api_url = f'https://api.trello.com/1/boards/{idBoards}/lists'
