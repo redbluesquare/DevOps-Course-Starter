@@ -1,0 +1,18 @@
+- name: update web servers
+  hosts: webservers
+  remote_user: ec2-user
+  tasks:
+  - name: Install the lastest version of Git
+    become: yes
+    ansible.builtin.yum:
+      name: git
+      state: latest
+
+  - name: Install the lastest version of Python
+    become: yes
+    ansible.builtin.yum:
+      name: python311
+      state: latest
+
+  - name: Execute the command in remote shell to install Poetry
+    ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
