@@ -47,6 +47,8 @@ TRELLO_API_OPEN_LIST=API_OPEN_LIST
 TRELLO_API_CLOSED_LIST=API_CLOSED_LIST
 TRELLO_API_BOARD=API_BOARD
 
+
+
 ## Running the App
 
 Once the all dependencies have been installed, start the Flask app in development mode within the Poetry environment by running:
@@ -72,3 +74,15 @@ To execute the tests, please run the following command:
 ```bash
 $ poetry run pytest
 ```
+
+## Deploying the app to Ansilbe
+To deploy the app to Ansible, copy the Ansible folder to your controlled node.
+Update the inventory file [To include all the control nodes you'd like to deploy to.]
+
+Setup SSH access from your control node to all your managed nodes
+
+Then run the following command:
+```bash
+$ ansible-playbook playbook.yaml -i inventory.yaml
+```
+
