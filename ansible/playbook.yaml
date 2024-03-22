@@ -65,3 +65,5 @@
     become: yes
     ansible.builtin.systemd_service:
       state: restarted
+      daemon_reload: true
+      name: todoapp.service
