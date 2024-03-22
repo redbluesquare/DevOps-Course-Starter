@@ -20,9 +20,17 @@
       creates: /home/ec2-user/.local/bin/poetry
 
   - name: Create Application Folder
+    become: yes
     ansible.builtin.shell: mkdir /opt/todoapp
     args:
       creates: /opt/todoapp
 
   - name: Change App folder owner to ec2-user
+    become: yes
     ansible.builtin.shell: chown ec2-user /opt/todoapp
+
+  - name: Git checkout
+    ansible.builtin.git:
+      repo: https://github.com/redbluesquare/DevOps-Course-Starter.git
+      dest: /opt/todoapp
+      version: exercise-4
