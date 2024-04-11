@@ -1,0 +1,66 @@
+- name: update web servers
+  hosts: webservers
+  remote_user: ec2-user
+
+  vars_prompt:
+    - name: trello_api_key
+      private: false
+      prompt: What is the Trello API key
+
+    - name: trello_api_token
+      prompt: What is the Trello API token
+
+  tasks:
+  - name: Install the lastest version of Git
+    become: yes
+    ansible.builtin.yum:
+      name: git
+      state: latest
+
+  - name: Install the lastest version of Python
+    become: yes
+    ansible.builtin.yum:
+      name: python311
+      state: latest
+
+  - name: Execute the command in remote shell to install Poetry
+    ansible.builtin.shell: curl -sSL https://install.python-poetry.org | python3 -
+    args:
+      creates: /home/ec2-user/.local/bin/poetry
+
+  - name: Create Application Folder
+    become: yes
+    ansible.builtin.file:
+      path: /opt/todoapp
+      state: directory
+      owner: ec2-user
+
+  - name: Git checkout
+    ansible.builtin.git:
+      repo: https://github.com/redbluesquare/DevOps-Course-Starter.git
+      dest: /opt/todoapp
+      version: exercise-4
+
+  - name: Install Python dependancies with Poetry
+    ansible.builtin.shell: poetry install
+    args:
+      chdir: /opt/todoapp
+
+  - name: Copy the .env file from template
+    ansible.builtin.template:
+      src: /home/ec2-user/.env.j2
+      dest: /opt/todoapp/.env
+
+
+  - name: Copy the service file to start the webserver
+    become: yes
+    ansible.builtin.copy:
+      src: /home/ec2-user/todoapp.service
+      dest: /etc/systemd/system/todoapp.service
+
+  - name: Make sure the service is running
+    become: yes
+    ansible.builtin.systemd_service:
+      state: restarted
+      daemon_reload: true
+      name: todoapp.service
