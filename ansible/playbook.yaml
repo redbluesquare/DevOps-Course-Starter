@@ -30,13 +30,10 @@
 
   - name: Create Application Folder
     become: yes
-    ansible.builtin.shell: mkdir /opt/todoapp
-    args:
-      creates: /opt/todoapp
-
-  - name: Change App folder owner to ec2-user
-    become: yes
-    ansible.builtin.shell: chown ec2-user /opt/todoapp
+    ansible.builtin.file:
+      path: /opt/todoapp
+      state: directory
+      owner: ec2-user
 
   - name: Git checkout
     ansible.builtin.git:
