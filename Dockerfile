@@ -4,7 +4,7 @@ ENV PATH=$PATH:/root/.local/bin/
 WORKDIR /app
 COPY pyproject.toml poetry.toml /app/
 RUN poetry install
-COPY . /app
+COPY todo_app /app/todo_app
 
 FROM base as development
 ENV FLASK_DEBUG=true
