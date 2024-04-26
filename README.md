@@ -86,3 +86,17 @@ Then run the following command:
 $ ansible-playbook playbook.yaml -i inventory.yaml
 ```
 
+# Running the app via Docker
+To build and run the app using Docker use the following commands below
+
+Development
+```bash
+$ docker build --target development --tag todo-app:dev .
+$ docker run --env-file ./.env -p 5100:80 --mount "type=bind,source=$(pwd)/todo_app,target=/app/todo_app" todo-app:dev
+```
+
+Production
+```bash
+$ docker build --target production --tag todo-app:prod .
+$ docker run --env-file ./.env -p 5100:80 todo-app:prod
+```
