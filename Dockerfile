@@ -1,9 +1,10 @@
 FROM python:3.8.3 as base
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH=$PATH:/root/.local/bin/
-COPY . /app
 WORKDIR /app
+COPY pyproject.toml poetry.toml /app/
 RUN poetry install
+COPY . /app
 
 FROM base as development
 ENV FLASK_DEBUG=true
