@@ -123,3 +123,4 @@ env/
 *.pem
 DevOps-Course-Starter.code-workspace
 *.pyc
+*.pptx
