@@ -13,3 +13,6 @@ ENTRYPOINT poetry run flask run --host 0.0.0.0
 FROM base as production
 ENV FLASK_DEBUG=false
 ENTRYPOINT poetry run flask run --host 0.0.0.0
+
+FROM base as test
+ENTRYPOINT poetry run pytest
