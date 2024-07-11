@@ -69,11 +69,12 @@ You should see output similar to the following:
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
 
-## Running the Test Suite
+## Running the Test Suite natively
 To execute the tests, please run the following command:
 ```bash
 $ poetry run pytest
 ```
+The tests can also be triggered using Github Actions once activated in your repository using a Docker container. Please check the Docker section if you would like to test via Docker
 
 ## Deploying the app to Ansilbe
 To deploy the app to Ansible, copy the Ansible folder to your controlled node.
