@@ -15,4 +15,5 @@ ENV FLASK_DEBUG=false
 ENTRYPOINT poetry run flask run --host 0.0.0.0
 
 FROM base as test
+COPY .env.test /app/
 ENTRYPOINT poetry run pytest
