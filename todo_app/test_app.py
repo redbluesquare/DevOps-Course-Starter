@@ -42,7 +42,7 @@ def stub(url, params={}, proxies='', verify='wincacerts.pem'):
         fake_response_data = [{
             'id': '123abc',
             'name': 'Open',
-            'cards': [{'id': '456', 'name': 'Test cards'}]
+            'cards': [{'id': '456', 'name': 'my card'}]
         }]
         return StubResponse(fake_response_data)
 
