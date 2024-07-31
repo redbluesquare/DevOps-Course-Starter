@@ -69,11 +69,12 @@ You should see output similar to the following:
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
 
-## Running the Test Suite
+## Running the Test Suite natively
 To execute the tests, please run the following command:
 ```bash
 $ poetry run pytest
 ```
+The tests can also be triggered using Github Actions once activated in your repository using a Docker container. Please check the Docker section if you would like to test via Docker
 
 ## Deploying the app to Ansilbe
 To deploy the app to Ansible, copy the Ansible folder to your controlled node.
@@ -87,12 +88,18 @@ $ ansible-playbook playbook.yaml -i inventory.yaml
 ```
 
 # Running the app via Docker
-To build and run the app using Docker use the following commands below
+To build, test and run the app using Docker use the following commands below
 
 Development
 ```bash
 $ docker build --target development --tag todo-app:dev .
 $ docker run --env-file ./.env -p 5100:5000 --mount "type=bind,source=$(pwd)/todo_app,target=/app/todo_app" todo-app:dev
+```
+
+Test
+```bash
+$ docker build --target test --tag todo-app:test .
+$ docker run todo-app:test
 ```
 
 Production
