@@ -1,13 +1,13 @@
 import os
 import requests
 from todo_app.data.item import Item
-import ssl
-context = ssl.create_default_context()
-der_certs = context.get_ca_certs(binary_form=True)
-pem_certs = [ssl.DER_cert_to_PEM_cert(der) for der in der_certs]
-with open('wincacerts.pem', 'w') as outfile:
-   for pem in pem_certs:
-      outfile.write(pem + '\n')
+#import ssl
+#context = ssl.create_default_context()
+#der_certs = context.get_ca_certs(binary_form=True)
+#pem_certs = [ssl.DER_cert_to_PEM_cert(der) for der in der_certs]
+#with open('wincacerts.pem', 'w') as outfile:
+#   for pem in pem_certs:
+#      outfile.write(pem + '\n')
 
 def get_items():
     """
@@ -20,14 +20,15 @@ def get_items():
     api_key = os.getenv("TRELLO_API_KEY")
     api_token = os.getenv("TRELLO_API_TOKEN")
     idBoards = os.getenv("TRELLO_API_BOARD")
-    proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
+    #proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
     api_url = f'https://api.trello.com/1/boards/{idBoards}/lists'
     query_params = {
         "key":api_key,
         "token":api_token,
         "cards":"open"
     }
-    response = requests.get(api_url, params=query_params, proxies=proxies, verify='wincacerts.pem')
+    #response = requests.get(api_url, params=query_params, proxies=proxies, verify='wincacerts.pem')
+    response = requests.get(api_url, params=query_params)
     response_list = response.json()
 
     for trello_list in response_list:
@@ -50,7 +51,7 @@ def add_item(title):
     api_key = os.getenv("TRELLO_API_KEY")
     api_token = os.getenv("TRELLO_API_TOKEN")
     api_list = os.getenv("TRELLO_API_OPEN_LIST")
-    proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
+    #proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
     api_url = "https://api.trello.com/1/cards"
     query_params = {
         "key":api_key,
@@ -58,8 +59,8 @@ def add_item(title):
         "idList":api_list,
         "name":title
         }
-    response = requests.post(api_url,params=query_params, proxies=proxies, verify='wincacerts.pem')
-
+    #response = requests.post(api_url,params=query_params, proxies=proxies, verify='wincacerts.pem')
+    response = requests.post(api_url,params=query_params)
     return response.ok
     
 def update_item(id, status = False):
@@ -78,14 +79,15 @@ def update_item(id, status = False):
         api_list = os.getenv("TRELLO_API_CLOSED_LIST")
     else:
         api_list = os.getenv("TRELLO_API_OPEN_LIST")
-    proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
+    #proxies = {'http':os.getenv("PROXY_URL"),'https':os.getenv("PROXY_URL")}
     api_url = f"https://api.trello.com/1/cards/{id}"
     query_params = {
         "key":api_key,
         "token":api_token,
         "idList":api_list
         }
-    response = requests.put(api_url,params=query_params, proxies=proxies, verify='wincacerts.pem')
+    #response = requests.put(api_url,params=query_params, proxies=proxies, verify='wincacerts.pem')
+    response = requests.put(api_url,params=query_params)
     if response.status_code == '200':
         return True
     else:
