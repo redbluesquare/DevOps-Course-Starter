@@ -111,6 +111,9 @@ $ docker run --env-file ./.env -p 5100:5000 todo-app:prod
 # Running the app via Azure App Service
 To run the app using Azure App Service use the following commands below
 
+If you would like to use an existing image, you can find it here on Docker Hub:
+<a href="https://hub.docker.com/repository/docker/redbluesquare/todo-app/general">redbluesquare/todo-app</a>
+
 Login to Docker Hub using your login details via the terminal
 ```bash
 $ docker login
