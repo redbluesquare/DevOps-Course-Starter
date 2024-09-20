@@ -107,3 +107,42 @@ Production
 $ docker build --target production --tag todo-app:prod .
 $ docker run --env-file ./.env -p 5100:5000 todo-app:prod
 ```
+
+# Running the app via Azure App Service
+To run the app using Azure App Service use the following commands below
+
+If you would like to use an existing image, you can find it here on Docker Hub:
+<a href="https://hub.docker.com/repository/docker/redbluesquare/todo-app/general">redbluesquare/todo-app</a>
+
+Login to Docker Hub using your login details via the terminal
+```bash
+$ docker login
+```
+
+Next, build your app and push it to Docker Hub. Here you could build the development, test or production version.<br>
+`Hint:`Your `<image-tag>` should include your username, e.g.: `<username>/todo-app:prod`
+```bash
+$ docker build --target <my_build_phase> --tag <image-tag> .
+$ docker push <image-tag>
+```
+
+Next, create a App Service Plan in Azure
+
+```azure
+$ az appservice plan create --resource-group <resource_group_name> -n <appservice_plan_name> --sku B1 --is-linux
+```
+
+<p>Then, create a App Service in Azure</p>
+
+```azure
+$ az webapp create --resource-group <resource_group_name> --plan <appservice_plan_name> --name <webapp_name> --deployment-container-image-name docker.io/<dockerhub_username>/<container-image-name>:latest
+```
+
+<p>Via the App portal, enter all of the environment variables</p>
+Portal:<br>
+<ul><li>Settings -> Configuration in the Portal</li>
+<li>Add all the environment variables as “New application setting”</li>
+<li>Add an entry for the website port to expose:  WEBSITES_PORT=5000</li>
+</ul>
+
+The app should be available if you browse to: `http://<webapp_name>.azurewebsites.net/`
