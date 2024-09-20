@@ -23,7 +23,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: docker build --target production --tag todo-app:prod .
-    - run: 
+      working-directory: .
 
   deploy:
     name: Deploy to Azure
