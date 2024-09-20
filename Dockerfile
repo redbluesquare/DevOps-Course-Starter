@@ -12,7 +12,8 @@ ENTRYPOINT poetry run flask run --host 0.0.0.0
 
 FROM base as production
 ENV FLASK_DEBUG=False
-EXPOSE 5000
+EXPOSE 5000/tcp
+EXPOSE 5000/udp
 ENTRYPOINT poetry run flask run --host 0.0.0.0
 
 FROM base as test
