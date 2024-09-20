@@ -12,26 +12,27 @@ jobs:
     name: Build and test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - run: docker build --target test --tag todo-app:test .
     - run: docker run todo-app:test
+  
   build-prod:
     name: Build the production image
     if: ${{ github.ref == 'refs/heads/exercise-9' }}
     needs: build-test
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
     - run: docker build --target production --tag todo-app:prod .
 
   deploy:
-    name: Deploy to Azure
+    name: Deploy to Dockerhub and Azure
     if: ${{ github.ref == 'refs/heads/exercise-9' }}
     runs-on: ubuntu-latest
     needs: build-prod
     steps:
     - run: echo "Deploying to production server on branch $GITHUB_REF"
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
 
     - name: Build the Dockerfile
       run: docker build --tag redbluesquare/todo-app:prod .
