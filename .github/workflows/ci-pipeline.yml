@@ -23,7 +23,6 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: docker build --target production --tag todo-app:prod .
-      working-directory: .
 
   deploy:
     name: Deploy to Azure
@@ -36,7 +35,6 @@ jobs:
 
     - name: Build the Dockerfile
       run: docker build --tag redbluesquare/todo-app:prod .
-      working-directory: .
 
     - name: Login to Dockerhub
       uses: docker/login-action@v1
@@ -46,7 +44,6 @@ jobs:
 
     - name: Publish the Dockerfile
       run: docker push redbluesquare/todo-app:prod
-      working-directory: .
 
     - name: deploy to Azure using the webhook
       run: curl -dH -X POST ${{ secrets.AZURE_TODOAPP_WEBHOOK }}
