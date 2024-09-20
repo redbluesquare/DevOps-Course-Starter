@@ -33,6 +33,9 @@ jobs:
     needs: build-prod
     steps:
     - run: echo "Deploying to production server on branch $GITHUB_REF"
+    - uses: actions/checkout@v4
+    - name: Build the Dockerfile
+      run: docker build --tag redbluesquare/todo-app:prod .
 
     - name: Login to Dockerhub
       uses: docker/login-action@v1
