@@ -33,7 +33,7 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build the Dockerfile
-      run: docker build --tag redbluesquare/todo-app:prod .
+      run: docker build --target production --tag redbluesquare/todo-app:prod .
 
     - name: Login to Dockerhub
       uses: docker/login-action@v1
