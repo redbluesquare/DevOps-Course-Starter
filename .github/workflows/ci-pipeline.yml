@@ -18,7 +18,7 @@ jobs:
   
   build-prod:
     name: Build the production image
-    if: ${{ github.ref == 'refs/heads/exercise-9' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     needs: build-test
     runs-on: ubuntu-latest
     steps:
@@ -27,7 +27,7 @@ jobs:
 
   deploy:
     name: Deploy to Dockerhub and Azure
-    if: ${{ github.ref == 'refs/heads/exercise-9' }}
+    if: ${{ github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     needs: build-prod
     steps:
