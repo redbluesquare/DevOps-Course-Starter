@@ -7,11 +7,13 @@ RUN poetry config virtualenvs.create false --local && poetry install
 COPY todo_app /app/todo_app
 
 FROM base as development
-ENV FLASK_DEBUG=true
+ENV FLASK_DEBUG=True
 ENTRYPOINT poetry run flask run --host 0.0.0.0
 
 FROM base as production
-ENV FLASK_DEBUG=false
+ENV FLASK_DEBUG=False
+EXPOSE 5000/tcp
+EXPOSE 5000/udp
 ENTRYPOINT poetry run flask run --host 0.0.0.0
 
 FROM base as test
