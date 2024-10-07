@@ -2,7 +2,7 @@ import os
 import pymongo
 from todo_app.data.item import Item
 
-connect = pymongo.MongClient(os.getenv("AZURE_COSMOS_DB_CONNECT"))
+connect = pymongo.MongoClient(os.getenv("AZURE_COSMOS_DB_CONNECT"))
 db = connect[os.getenv("AZURE_COSMOS_DB")]
 
 def get_items():
@@ -14,10 +14,11 @@ def get_items():
     """
     list_items = []
 
-    for todo_list in response_list:
-        for card in todo_list['cards']:
-            item = Item.from_cosmos_card(card, cosmos_list)
-            list_items.append(item)
+    response_list = db[os.getenv("AZURE_COSMOS_LIST")]
+
+    for card in response_list.find():
+        item = Item.from_cosmos_card(card, cosmos_list)
+        list_items.append(item)
     return list_items
 
 def add_item(title):
