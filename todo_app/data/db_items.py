@@ -13,11 +13,12 @@ def get_items():
         list: The list of saved items.
     """
     list_items = []
-
+    connect = pymongo.MongoClient(os.getenv("AZURE_COSMOS_DB_CONNECT"))
+    db = connect[os.getenv("AZURE_COSMOS_DB")]
     response_list = db[os.getenv("AZURE_COSMOS_LIST")]
 
     for card in response_list.find():
-        item = Item.from_cosmos_card(card, cosmos_list)
+        item = Item.from_cosmos_card(card, response_list.find())
         list_items.append(item)
     return list_items
 
@@ -30,10 +31,10 @@ def add_item(title):
         True if the the item saves.
     """
     query_params = {
-        "name":title,
+        "title":title,
         "status":"open"
         }
-    result = db["cards"].insert_one(query_params)
+    result = db[os.getenv("AZURE_COSMOS_LIST")].insert_one(query_params)
     return result
 
 def update_item(id, status = False):
@@ -44,9 +45,13 @@ def update_item(id, status = False):
     Returns:
         True if the the item saves.
     """
+    connect = pymongo.MongoClient(os.getenv("AZURE_COSMOS_DB_CONNECT"))
+    db = connect[os.getenv("AZURE_COSMOS_DB")]
+    print(id)
     if status == True:
         item_status = 'closed'
     else:
         item_status = 'open'
-    result = db["cards"].update_one({"name":title}, {"$set":{"status":item_status}})
+    result = db[os.getenv("AZURE_COSMOS_LIST")].update_one({"title":id}, {"$set":{"status":item_status}})
+    print(result)
     return result
