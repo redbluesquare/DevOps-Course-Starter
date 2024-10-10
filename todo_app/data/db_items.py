@@ -1,6 +1,7 @@
 import os
 import pymongo
 from todo_app.data.item import Item
+from bson.objectid import ObjectId
 
 connect = pymongo.MongoClient(os.getenv("AZURE_COSMOS_DB_CONNECT"))
 db = connect[os.getenv("AZURE_COSMOS_DB")]
@@ -52,6 +53,6 @@ def update_item(id, status = False):
         item_status = 'closed'
     else:
         item_status = 'open'
-    result = db[os.getenv("AZURE_COSMOS_LIST")].update_one({"title":id}, {"$set":{"status":item_status}})
+    result = db[os.getenv("AZURE_COSMOS_LIST")].update_one({"_id":ObjectId(id)}, {"$set":{"status":item_status}})
     print(result)
     return result
