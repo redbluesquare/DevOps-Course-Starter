@@ -12,6 +12,7 @@ requests = "^2.31.0"
 pytest = "^8.0.1"
 pymongo = "^4.10.1"
 bson = "^0.5.10"
+mongomock = "^4.2.0.post1"
 
 [tool.poetry.dev-dependencies]
 
