@@ -20,8 +20,8 @@ def test_view_model_done_property():
 def test_view_model_open_property():
     # Arrange
     items = [
-        Item('1','My card','Open'),
-        Item('2','My 2nd card','Closed')]
+        Item('1','My card','open'),
+        Item('2','My 2nd card','closed')]
     item_view_model = ViewModel(items)
     # Act
     returned_items = item_view_model.open_items
