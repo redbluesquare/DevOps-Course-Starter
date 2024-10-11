@@ -4,7 +4,6 @@ from todo_app.data.item import Item
 from bson.objectid import ObjectId
 
 connect = pymongo.MongoClient(os.getenv("AZURE_COSMOS_DB_CONNECT"))
-db = connect[os.getenv("AZURE_COSMOS_DB")]
 
 def get_items():
     """
