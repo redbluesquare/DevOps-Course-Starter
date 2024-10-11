@@ -1,13 +1,13 @@
 from todo_app.data.item import Item
-from todo_app.data.trello_items import get_items
+from todo_app.data.db_items import get_items
 from todo_app.data.view_model import ViewModel
 
 
 def test_view_model_done_property():
     # Arrange
     items = [
-        Item('1','My card','Open'),
-        Item('2','My 2nd card','Closed')
+        Item('1','My card','open'),
+        Item('2','My 2nd card','closed')
     ]
     item_view_model = ViewModel(items)
     # Act
@@ -15,7 +15,7 @@ def test_view_model_done_property():
 
     # Assert
     assert len(returned_items) == 1
-    assert returned_items[0].status == 'Closed'
+    assert returned_items[0].status == 'closed'
 
 def test_view_model_open_property():
     # Arrange
@@ -28,4 +28,4 @@ def test_view_model_open_property():
 
     # Assert
     assert len(returned_items) == 1
-    assert returned_items[0].status == 'Open'
+    assert returned_items[0].status == 'open'

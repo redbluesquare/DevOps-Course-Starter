@@ -1,7 +1,7 @@
 import os
 from dotenv import load_dotenv, find_dotenv
 import pytest
-import requests
+import mongomock
 from todo_app import app
 
 @pytest.fixture
@@ -10,12 +10,11 @@ def client():
     file_path = find_dotenv('.env.test')
     load_dotenv(file_path, override=True)
 
-    # Create the new app.
-    test_app = app.create_app()
-
     # Use the app to create a test_client that can be used in our tests.
-    with test_app.test_client() as client:
-        yield client
+    with mongomock.patch(servers=((os.environ.get('AZURE_COSMOS_DB_CONNECT'), 27017),)):
+        test_app = app.create_app()
+        with test_app.test_client() as client:
+            yield client
 
 def test_index_page(monkeypatch, client):
     # This replaces any call to requests.get with our own function
@@ -35,7 +34,7 @@ class StubResponse():
     def json(self):
         return self.fake_response_data
 
-def stub(url, params={}, proxies='', verify='wincacerts.pem'):
+def stub():
     test_board_id = os.environ.get('TRELLO_API_BOARD')
 
     if url == f'https://api.trello.com/1/boards/{test_board_id}/lists':
