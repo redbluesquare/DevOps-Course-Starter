@@ -1,5 +1,6 @@
 import os
 from dotenv import load_dotenv, find_dotenv
+from todo_app.data.db_items import add_item
 import pytest
 import mongomock
 import requests
@@ -17,33 +18,10 @@ def client():
         with test_app.test_client() as client:
             yield client
 
-def test_index_page(monkeypatch, client):
-    # This replaces any call to requests.get with our own function
-    monkeypatch.setattr(requests, 'get', stub)
+def test_index_page(client):
+    add_item('Test card')
 
     response = client.get('/')
-    #assert response.status_code == '200'
-    assert 'Test card' in response.find_one({'title':'Test card'})
-
-class StubResponse():
-    def __init__(self, fake_response_data):
-        self.fake_response_data = fake_response_data
-
-    def raise_for_status(self):
-        pass
-
-    def json(self):
-        return self.fake_response_data
-
-def stub():
-    connect = mongomock.patch(servers=((os.environ.get('AZURE_COSMOS_DB_CONNECT'), 27017),))
-    fake_response_data = connect.db.collection
-    objects = [{'title': 'Test card','status':'open'},
-                        {'title': 'New card','status':'open'}]
-    for obj in objects:
-        obj['_id'] = fake_response_data.insert_one(obj).inserted_id
-    return StubResponse(objects)
-
-    raise Exception(f'Integration test did not expect URL "{url}"')
-
+    assert response.status_code == 200
+    assert 'Test card' in response.data.decode()
 

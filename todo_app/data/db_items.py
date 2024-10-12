@@ -3,8 +3,6 @@ import pymongo
 from todo_app.data.item import Item
 from bson.objectid import ObjectId
 
-connect = pymongo.MongoClient(os.getenv("AZURE_COSMOS_DB_CONNECT"))
-
 def get_items():
     """
     Fetches all items from the Cosmos DB.
@@ -30,6 +28,9 @@ def add_item(title):
     Returns:
         True if the the item saves.
     """
+    connect = pymongo.MongoClient(os.getenv("AZURE_COSMOS_DB_CONNECT"))
+    db = connect[os.getenv("AZURE_COSMOS_DB")]
+
     query_params = {
         "title":title,
         "status":"open"
@@ -47,11 +48,9 @@ def update_item(id, status = False):
     """
     connect = pymongo.MongoClient(os.getenv("AZURE_COSMOS_DB_CONNECT"))
     db = connect[os.getenv("AZURE_COSMOS_DB")]
-    print(id)
     if status == True:
         item_status = 'closed'
     else:
         item_status = 'open'
     result = db[os.getenv("AZURE_COSMOS_LIST")].update_one({"_id":ObjectId(id)}, {"$set":{"status":item_status}})
-    print(result)
     return result
