@@ -1,4 +1,4 @@
-FROM python:3.8.3 as base
+FROM python:3.11.1 as base
 RUN curl -sSL https://install.python-poetry.org | python3 -
 ENV PATH=$PATH:/root/.local/bin/
 WORKDIR /app

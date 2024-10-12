@@ -6,7 +6,7 @@ class ViewModel:
     def open_items(self):
         output = []
         for item in self._items:
-            if item.status == 'Open':
+            if item.status == 'open':
                 output.append(item)
         return output
     
@@ -14,6 +14,6 @@ class ViewModel:
     def done_items(self):
         output = []
         for item in self._items:
-            if item.status == 'Closed':
+            if item.status == 'closed':
                 output.append(item)
         return output

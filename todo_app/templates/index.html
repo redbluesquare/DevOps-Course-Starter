@@ -22,10 +22,10 @@
         {% for item in view_model.open_items %}
         <li name="" style="width: 400px;margin-bottom: 10px;border: 1px solid #ccc;border-radius: 5px;padding:5px; ">
           {{ item.title }} 
-          {% if item.status == 'Open' %}
+          {% if item.status == 'open' %}
           <form style="float:right;" action="close-todo" method="post">
             <button type="submit" value="submit">Mark Complete</button>
-            <input type="hidden" name="id" value="{{item.id}}" required>
+            <input type="hidden" name="id" value="{{item._id}}" required>
           </form>
           {% endif %}
         </li>

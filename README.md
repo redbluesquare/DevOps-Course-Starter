@@ -35,19 +35,6 @@ $ cp .env.template .env.test  # (first time only)
 
 The `.env` file is used by flask to set environment variables when running `flask run`. This enables things like development mode (which also enables features like hot reloading when you make a file change). There's also a [SECRET_KEY](https://flask.palletsprojects.com/en/1.1.x/config/#SECRET_KEY) variable which is used to encrypt the flask session cookie.
 
-## Setup Trello
-
-<a href="https://trello.com/signup" target="NEW_WINDOW">Create a Trello account</a> and <a href="https://developer.atlassian.com/cloud/trello/guides/rest-api/api-introduction/#managing-your-api-key">API Key</a>
-
-Once you have your Trello API key and secret, update the .env files with the variables.
-
-TRELLO_API_KEY=API_KEY
-TRELLO_API_TOKEN=API_TOKEN
-TRELLO_API_OPEN_LIST=API_OPEN_LIST
-TRELLO_API_CLOSED_LIST=API_CLOSED_LIST
-TRELLO_API_BOARD=API_BOARD
-
-
 
 ## Running the App
 
@@ -146,3 +133,20 @@ Portal:<br>
 </ul>
 
 The app should be available if you browse to: `http://<webapp_name>.azurewebsites.net/`
+
+To implement a MongoDB client with CosmosDB, the following updates must be done
+
+Add pymongo to Poetry with
+```bash
+$ poetry add pymongo
+```
+
+Setup a new Cosmosdb account in your Azure account.
+
+#TODO! Add az login , az setup commands
+
+Update the `.env` file so the new account and database can be used
+
+AZURE_COSMOS_DB_CONNECT=CONNECTION_STRING
+AZURE_COSMOS_DB=DB_NAME
+AZURE_COSMOS_LIST=LIST

@@ -4,6 +4,7 @@ class Item:
         self.title = title
         self.status = status
 
+
     @classmethod
-    def from_trello_card(cls, card, list):
-        return cls(card['id'], card['name'], list['name'])
+    def from_cosmos_card(cls, card, list):
+        return cls(card['_id'], card['title'], card['status'])
