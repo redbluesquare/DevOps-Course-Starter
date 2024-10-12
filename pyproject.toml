@@ -11,8 +11,8 @@ python-dotenv = "^0.14.0"
 requests = "^2.31.0"
 pytest = "^8.0.1"
 mongomock = "^4.2.0.post1"
-bson = "^0.5.10"
 pymongo = "^4.10.1"
+pybson = "^0.5.9"
 
 
 [tool.poetry.dev-dependencies]

@@ -12,20 +12,6 @@ files = [
 ]
 
 [[package]]
-name = "bson"
-version = "0.5.10"
-description = "BSON codec for Python"
-optional = false
-python-versions = "*"
-files = [
-    {file = "bson-0.5.10.tar.gz", hash = "sha256:d6511b2ab051139a9123c184de1a04227262173ad593429d21e443d6462d6590"},
-]
-
-[package.dependencies]
-python-dateutil = ">=2.4.0"
-six = ">=1.9.0"
-
-[[package]]
 name = "certifi"
 version = "2024.8.30"
 description = "Python package for providing Mozilla's CA Bundle."
@@ -425,6 +411,20 @@ dev = ["pre-commit", "tox"]
 testing = ["pytest", "pytest-benchmark"]
 
 [[package]]
+name = "pybson"
+version = "0.5.9"
+description = "BSON codec for Python"
+optional = false
+python-versions = "*"
+files = [
+    {file = "pybson-0.5.9.tar.gz", hash = "sha256:198b19c66293873db4fca49e86c16d18c324048c0c69ddfb92dcc66983fc16e5"},
+]
+
+[package.dependencies]
+python-dateutil = ">=2.4.0"
+six = ">=1.9.0"
+
+[[package]]
 name = "pymongo"
 version = "4.10.1"
 description = "Python driver for MongoDB <http://www.mongodb.org>"
@@ -675,4 +675,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.0"
 python-versions = "^3.9"
-content-hash = "df3eb94edb8e658086c1964a0a63c38d15cf4d8543cf8b095aa9df215966b139"
+content-hash = "0ee6ac9618e7bf69f478999d147e8c9631ecf1349d1e7ad989594d7760a69684"
