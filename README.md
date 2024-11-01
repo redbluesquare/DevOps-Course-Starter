@@ -56,6 +56,11 @@ You should see output similar to the following:
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
 
+## Committing to Github
+Every time the code is committed to Github, we execute Github-Actions to check and deploy our app, both to Docker and Azure currently
+We also conduct a vunerability scan on the code base to check if any dependancies need to be updated.
+When new packages are installed via Poetry, please also check the Actions output to see if new updates are needed.
+
 ## Running the Test Suite natively
 To execute the tests, please run the following command:
 ```bash
@@ -63,7 +68,7 @@ $ poetry run pytest
 ```
 The tests can also be triggered using Github Actions once activated in your repository using a Docker container. Please check the Docker section if you would like to test via Docker
 
-## Deploying the app to Ansilbe
+## Deploying the app to Ansible
 To deploy the app to Ansible, copy the Ansible folder to your controlled node.
 Update the inventory file [To include all the control nodes you'd like to deploy to.]
 
@@ -142,11 +147,21 @@ $ poetry add pymongo
 ```
 
 Setup a new Cosmosdb account in your Azure account.
+The benefit of using a Cosmosdb is that Azure automatically takes care to ensure your data is securely stored at rest. To learn more:  <a href="https://learn.microsoft.com/en-us/azure/cosmos-db/database-encryption-at-rest" target="_BLANK">Microsoft Docs for CosmosDB</a>
 
-#TODO! Add az login , az setup commands
+Create a new Mongodb account
+```bash
+$ az cosmosdb create --name <cosmos_account_name> --resource-group <resource_group_name> --kind MongoDB --capabilities EnableServerless --server-version 4.2
+```
+Create a new Mongodb database
+```bash
+$ az cosmosdb mongodb database create --account-name <cosmos_account_name> --name <database_name> --resource-group <resource_group_name>
+```
+
+
 
 Update the `.env` file so the new account and database can be used
 
-AZURE_COSMOS_DB_CONNECT=CONNECTION_STRING
-AZURE_COSMOS_DB=DB_NAME
+AZURE_COSMOS_DB_CONNECT=CONNECTION_STRING <br>
+AZURE_COSMOS_DB=DB_NAME <br>
 AZURE_COSMOS_LIST=LIST
