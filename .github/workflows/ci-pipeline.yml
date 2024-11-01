@@ -18,7 +18,7 @@ jobs:
     - uses: pyupio/safety-action@v1
       with:
         api-key: ${{ secrets.SAFETY_API_KEY }}
-        continue-on-error: true
+      continue-on-error: true
   
   build-prod:
     name: Build the production image
