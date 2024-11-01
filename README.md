@@ -56,6 +56,11 @@ You should see output similar to the following:
 Now visit [`http://localhost:5000/`](http://localhost:5000/) in your web browser to view the app.
 
 
+## Committing to Github
+Every time the code is committed to Github, we execute Github-Actions to check and deploy our app, both to Docker and Azure currently
+We also conduct a vunerability scan on the code base to check if any dependancies need to be updated.
+When new packages are installed via Poetry, please also check the Actions output to see if new updates are needed.
+
 ## Running the Test Suite natively
 To execute the tests, please run the following command:
 ```bash
