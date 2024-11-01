@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "todo-app"
-version = "0.1.1"
+version = "0.1.2"
 description = "A simple ToDo app for your DevOps apprenticeship"
 authors = ["Corndell","Darryl"]
 
@@ -13,6 +13,7 @@ pytest = "^8.0.1"
 mongomock = "^4.2.0.post1"
 pymongo = "^4.10.1"
 pybson = "^0.5.9"
+safety = "^3.2.10"
 
 
 [tool.poetry.dev-dependencies]
